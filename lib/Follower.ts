@@ -1,7 +1,5 @@
 import Tile from "./Tile";
 import Player from './Player';
-import TileStack from "./TileStack";
-import IllegalMoveException from "./IllegalMoveException";
 
 /**
  * What role the follower is fulfilling
@@ -28,7 +26,10 @@ export enum FollowerType {
     KNIGHT,
 };
 
-export default abstract class Follower {
+export default class Follower {
+    // Nested follower type
+    static Type = FollowerType;
+
     /**
      * Where is the follower located?
      */
@@ -44,26 +45,16 @@ export default abstract class Follower {
      */
     type: FollowerType;
 
-    // Nested follower type
-    public static Type = FollowerType;
-};
-
-export class KnightFollower extends Follower {
-    constructor(tile: Tile, player: Player) {
-        super();
-        // if (!tile.getBaseBorders().includes(Tile.Border.CITY))
-        //     throw IllegalMoveException()
-    }
-};
-
-export class ThiefFollower extends Follower {
-
-};
-
-export class MonkFollower extends Follower {
-
-};
-
-export class FarmerFollower extends Follower {
+    // TODO should probably move this to children extend this...
+    /**
+     * Only relevant to farmer follower, what corner is the farmer closest to?
+     * 0    : top
+     * 0.5  : top-right
+     * 1    : right
+     * 1.5  : bottom-right
+     * 3    : bottom-left
+     * 3.5  : top-left
+     */
+    position: number;
 
 };

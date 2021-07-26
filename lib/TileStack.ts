@@ -19,7 +19,7 @@ export default class TileStack {
     }
 
     /**
-     * Populations of each
+     * Populations of each type of tile in the stack
      */
     private static tileDistribution: [new () => Tile, number][] = [
         [tiles.CCCCTile, 1],
@@ -67,10 +67,10 @@ export default class TileStack {
     }
 
     /**
-     * Shuffles the
+     * Shuffles the stack of cards
      */
     private shuffle() {
-        // Shuffle via fisher yates algorithm
+        // Shuffle via fisher-yates algorithm
         // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
         for (let i = this.tiles.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -78,4 +78,11 @@ export default class TileStack {
         }
     }
 
+    /**
+     * Pick a card from the stack
+     * @returns tile on top of the stack
+     */
+    pull() {
+        return this.tiles.pop();
+    }
 };

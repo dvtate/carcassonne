@@ -1,4 +1,4 @@
-import Follower, { FollowerType } from './Follower';
+import Follower from './Follower';
 
 // Represents tile border types
 enum BorderType {
@@ -26,6 +26,10 @@ export default abstract class Tile {
      */
     rotation: number = 0;
 
+    /**
+     * Follower deployed to this tile
+     */
+    followers: Follower[] = [];
 
     /**
      * Rotate a piece and it's borders
@@ -38,9 +42,9 @@ export default abstract class Tile {
 
     /**
      * Get rotated border
-     * @param rotation
+     * @param rotation temporary version of this.rotation
      */
-    getBorders(rotation?: number): QuadBorders {
+    getBorders(rotation: number = this.rotation): QuadBorders {
         const baseBorders = this.getBaseBorders();
         return [
             baseBorders[rotation],
@@ -73,22 +77,41 @@ export default abstract class Tile {
      */
     abstract getBaseBorders(): QuadBorders;
 
-    validFollowerTypes() {
-        // Monks live in cloisters
-        const ret: FollowerType[] = [];
-        if (this.hasCloister())
-            ret.push(Follower.Type.MONK);
+    /**
+     * Does the city item have a pennant giving it 2 additional points in value?
+     * @returns true if there is a pennant in the city area
+     * @virtual
+     */
+    hasPennant(): boolean {
+        return false;
+    }
 
-        // Border specific followers
-        const borders = this.getBaseBorders();
-        if (borders.includes(BorderType.FARM))
-            ret.push(FollowerType.FARMER);
-        if (borders.includes(BorderType.CITY))
-            ret.push(FollowerType.KNIGHT);
-        if (borders.includes(BorderType.ROAD))
-            ret.push(FollowerType.THIEF);
+    /**
+     * Get the followers stationed here
+     * @returns followers member
+     */
+    getFollowers() {
+        return this.followers.slice();
+    }
+
+    /**
+     * Station a follower to this tile
+     * @param follower follower to add
+     */
+    addFollower(follower: Follower) {
+        this.followers.push(follower);
+    }
+
+    /**
+     * Duplicate tile
+     * @returns new tile like this one
+     */
+    clone() {
+        const ret = new (this.constructor as new () => Tile)();
+        ret.rotation = this.rotation;
+        ret.followers = this.followers.slice();
         return ret;
-    };
+    }
 };
 
 
@@ -111,8 +134,14 @@ export class CCCFTile extends Tile {
     }
 };
 
-// The only difference between this tile and what it extends is the blue emblem
-export class CCCF2Tile extends CCCFTile {};
+export class CCCF2Tile extends CCCFTile {
+    /**
+     * @override
+     */
+    hasPennant() {
+        return true;
+    }
+};
 
 export class CCCRTile extends Tile {
     getBaseBorders(): QuadBorders {
@@ -120,8 +149,14 @@ export class CCCRTile extends Tile {
     }
 };
 
-// The only difference between this tile and what it extends is the blue emblem
-export class CCCR2Tile extends CCCRTile {};
+export class CCCR2Tile extends CCCRTile {
+    /**
+     * @override
+     */
+    hasPennant() {
+        return true;
+    }
+};
 
 export class CCFFTile extends Tile {
     getBaseBorders(): QuadBorders {
@@ -129,8 +164,14 @@ export class CCFFTile extends Tile {
     }
 };
 
-// The only difference between this tile and what it extends is the blue emblem
-export class CCFF2Tile extends CCFFTile {};
+export class CCFF2Tile extends CCFFTile {
+    /**
+     * @override
+     */
+    hasPennant() {
+        return true;
+    }
+};
 
 // Like base CCFF but without connected city borders
 export class CCFF3Tile extends CCFFTile {
@@ -148,8 +189,14 @@ export class CCRRTile extends Tile {
     }
 };
 
-// The only difference between this tile and what it extends is the blue emblem
-export class CCRR2Tile extends CCRRTile {};
+export class CCRR2Tile extends CCRRTile {
+    /**
+     * @override
+     */
+    hasPennant() {
+        return true;
+    }
+};
 
 export class CFCFTile extends Tile {
     getBaseBorders(): QuadBorders {
@@ -157,8 +204,14 @@ export class CFCFTile extends Tile {
     }
 };
 
-// The only difference between this tile and what it extends is the blue emblem
-export class CFCF2Tile extends CFCFTile {};
+export class CFCF2Tile extends CFCFTile {
+    /**
+     * @override
+     */
+    hasPennant() {
+        return true;
+    }
+};
 
 // Like base CFCF but witohut connected city borders
 export class CFCF3Tile extends CFCFTile {
