@@ -47,7 +47,8 @@ export default class Follower {
 
     // TODO should probably move this to children extend this...
     /**
-     * Only relevant to farmer follower, what corner is the farmer closest to?
+     * Where in the tile is the follower located?
+     * Only relevant to farmer and knight followers
      * 0    : top
      * 0.5  : top-right
      * 1    : right
@@ -57,4 +58,17 @@ export default class Follower {
      */
     position: number;
 
+    /**
+     *
+     * @param type
+     * @param tile
+     * @param position
+     * @param player
+     */
+    constructor(type: FollowerType, tile: Tile = null, position = 0, player: Player = null) {
+        this.type = type;
+        this.tile = tile;
+        this.position = position;
+        this.player = player;
+    }
 };

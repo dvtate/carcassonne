@@ -1,6 +1,8 @@
 
 
-// The player follower colors
+/**
+ * The player's followers' colors
+ */
 enum PlayerColor {
     RED = "#f00",
     GREEN = "#080",
@@ -12,12 +14,18 @@ enum PlayerColor {
 };
 
 export default class Player {
-    // What color is the ploayer's followers
+    /**
+     * Nested player follower color enum
+     */
     static Color = PlayerColor;
+
+    /**
+     * What color is the ploayer's followers
+     */
     color: PlayerColor;
 
+    /**
+     * How many followers do they have at their disposal
+     */
     followerSupply: number = 8;
-
-
-
 };

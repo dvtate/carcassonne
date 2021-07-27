@@ -11,6 +11,11 @@ export default class TileStack {
     tiles: Tile[] = [];
 
     /**
+     * Tiles that are unable to be played
+     */
+    discarded: Tile[] = [];
+
+    /**
      * @constructor fill up the tile stack
      */
     constructor() {
@@ -84,5 +89,13 @@ export default class TileStack {
      */
     pull() {
         return this.tiles.pop();
+    }
+
+    /**
+     * Remove a tile from play
+     * @param tile tile to remove from play
+     */
+    discard(tile: Tile) {
+        this.discarded.push(tile);
     }
 };

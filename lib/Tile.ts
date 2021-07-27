@@ -1,14 +1,21 @@
 import Follower from './Follower';
+import {FarmBorder, FarmBorderArea, FarmBorderPassageway, FarmBorderSegment} from './FarmBorder'
 
 // Represents tile border types
 enum BorderType {
-    // Urban Area
+    /**
+     * Urban area
+     */
     CITY = 'c',
 
-    // Green field without roads
+    /**
+     * Green field without roads
+     */
     FARM = 'f',
 
-    // Green field with roads
+    /**
+     * Green field with roads
+     */
     ROAD = 'r',
 };
 
@@ -112,8 +119,15 @@ export default abstract class Tile {
         ret.followers = this.followers.slice();
         return ret;
     }
-};
 
+
+    /**
+     * Discover farm border connections for this tile
+     * @param rotation amount to rotate tile by, defaults to this.rotation
+     */
+    abstract farmConnections(rotation?: number): FarmBorder[];
+
+};
 
 /*
  * These are listed in the same order as in page 16 of the CarcassonneRules.pdf file
@@ -126,11 +140,19 @@ export class CCCCTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.CITY];
     }
+
+    farmConnections(rotation = this.rotation) {
+        return [];
+    }
 };
 
 export class CCCFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.FARM];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderArea(this, [2.5, 3.5], rotation)];
     }
 };
 
@@ -147,6 +169,10 @@ export class CCCRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.ROAD];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderArea(this, [2.5, 3] , rotation), new FarmBorderArea(this, [3, 3.5], rotation)];
+    }
 };
 
 export class CCCR2Tile extends CCCRTile {
@@ -161,6 +187,10 @@ export class CCCR2Tile extends CCCRTile {
 export class CCFFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.FARM, BorderType.FARM];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderArea(this, [2.5, 3] , rotation)];
     }
 };
 
@@ -187,6 +217,13 @@ export class CCRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.ROAD, BorderType.ROAD];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderArea(this, [2, 3], rotation),
+            new FarmBorderPassageway(this, [[1.5, 2], [3, 3.5]], rotation),
+        ];
+    }
 };
 
 export class CCRR2Tile extends CCRRTile {
@@ -201,6 +238,16 @@ export class CCRR2Tile extends CCRRTile {
 export class CFCFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.CITY, BorderType.FARM];
+    }
+
+    /**
+     * @virtual
+     */
+    farmConnections(rotation: number = this.rotation): FarmBorder[] {
+        return [
+            new FarmBorderArea(this, [0.5, 1.5], rotation),
+            new FarmBorderArea(this, [2.5, 3.5], rotation),
+        ];
     }
 };
 
@@ -221,17 +268,35 @@ export class CFCF3Tile extends CFCFTile {
     cityConnected() {
         return false;
     }
+
+    /**
+     * @override
+     */
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderPassageway(this, [[0.5, 1.5], [2.5, 3.5]], rotation)];
+    }
 };
 
 export class CFFFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.FARM, BorderType.FARM];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderArea(this, [0.5, 3.5], rotation)];
+    }
 };
 
 export class CFRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.ROAD, BorderType.ROAD];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderPassageway(this, [[0.5, 2], [3, 3.5]], rotation),
+            new FarmBorderArea(this, [2, 3], rotation),
+        ];
     }
 };
 
@@ -240,17 +305,39 @@ export class CRFRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.FARM, BorderType.ROAD];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderPassageway(this, [[0.5, 1], [3, 3.5]], rotation),
+            new FarmBorderArea(this, [1, 3], rotation),
+        ];
+    }
 };
 
 export class CRRFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.ROAD, BorderType.FARM];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderPassageway(this, [[0.5, 1], [2, 3.5]], rotation),
+            new FarmBorderArea(this, [1, 2], rotation),
+        ];
+    }
 };
 
 export class CRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderPassageway(this, [[0.5, 1], [3, 3.5]], rotation),
+            new FarmBorderArea(this, [1, 2], rotation),
+            new FarmBorderArea(this, [2, 3], rotation),
+        ];
     }
 };
 
@@ -266,6 +353,10 @@ export class FFFFTile extends Tile {
     hasCloister() {
         return true;
     }
+
+    farmConnections() {
+        return [new FarmBorderArea(this, [0, 4])];
+    }
 };
 
 // Cloister Farm + Road tile
@@ -280,11 +371,22 @@ export class FFFRTile extends Tile {
     hasCloister() {
         return true;
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [new FarmBorderArea(this, [3.5, 7.5], rotation)]
+    }
 };
 
 export class FFRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.FARM, BorderType.ROAD, BorderType.ROAD];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderArea(this, [2, 3], rotation),
+            new FarmBorderArea(this, [3, 6], rotation),
+        ];
     }
 };
 
@@ -292,16 +394,40 @@ export class FRFRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.ROAD, BorderType.FARM, BorderType.ROAD];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderArea(this, [1, 3], rotation),
+            new FarmBorderArea(this, [3, 5], rotation),
+        ];
+    }
 };
 
 export class FRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];
     }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderArea(this, [1, 2], rotation),
+            new FarmBorderArea(this, [2, 3], rotation),
+            new FarmBorderArea(this, [3, 5], rotation),
+        ];
+    }
 };
 
 export class RRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.ROAD, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];
+    }
+
+    farmConnections(rotation: number = this.rotation) {
+        return [
+            new FarmBorderArea(this, [0, 1], rotation),
+            new FarmBorderArea(this, [1, 2], rotation),
+            new FarmBorderArea(this, [2, 3], rotation),
+            new FarmBorderArea(this, [3, 4], rotation),
+        ];
     }
 };
