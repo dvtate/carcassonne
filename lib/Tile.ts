@@ -138,6 +138,9 @@ export default abstract class Tile {
 // TODO note that the base game art in some cases is rotated differently so if an exact clone is to be made
 //   we would want to rotate some tiles base borders
 
+/**
+ * Represents tile 1 on page 16 of the rulebook
+ */
 export class CCCCTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.CITY];
@@ -148,6 +151,9 @@ export class CCCCTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 2 on page 16 of the rulebook
+ */
 export class CCCFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.FARM];
@@ -158,6 +164,9 @@ export class CCCFTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 3 on page 16 of the rulebook
+ */
 export class CCCF2Tile extends CCCFTile {
     /**
      * @override
@@ -167,6 +176,9 @@ export class CCCF2Tile extends CCCFTile {
     }
 };
 
+/**
+ * Represents tile 4 on page 16 of the rulebook
+ */
 export class CCCRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.CITY, BorderType.ROAD];
@@ -177,6 +189,9 @@ export class CCCRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 5 on page 16 of the rulebook
+ */
 export class CCCR2Tile extends CCCRTile {
     /**
      * @override
@@ -186,6 +201,9 @@ export class CCCR2Tile extends CCCRTile {
     }
 };
 
+/**
+ * Represents tile 6 on page 16 of the rulebook
+ */
 export class CCFFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.FARM, BorderType.FARM];
@@ -196,6 +214,9 @@ export class CCFFTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 7 on page 16 of the rulebook
+ */
 export class CCFF2Tile extends CCFFTile {
     /**
      * @override
@@ -205,7 +226,10 @@ export class CCFF2Tile extends CCFFTile {
     }
 };
 
-// Like base CCFF but without connected city borders
+/**
+ * Represents tile 8 on page 16 of the rulebook
+ * Like base CCFF but without connected city borders
+ */
 export class CCFF3Tile extends CCFFTile {
     /**
      * @override
@@ -215,6 +239,9 @@ export class CCFF3Tile extends CCFFTile {
     }
 };
 
+/**
+ * Represents tile 9 on page 16 of the rulebook
+ */
 export class CCRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.CITY, BorderType.ROAD, BorderType.ROAD];
@@ -228,6 +255,9 @@ export class CCRRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 10 on page 16 of the rulebook
+ */
 export class CCRR2Tile extends CCRRTile {
     /**
      * @override
@@ -237,6 +267,9 @@ export class CCRR2Tile extends CCRRTile {
     }
 };
 
+/**
+ * Represents tile 11 on page 16 of the rulebook
+ */
 export class CFCFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.CITY, BorderType.FARM];
@@ -253,6 +286,9 @@ export class CFCFTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 12 on page 16 of the rulebook
+ */
 export class CFCF2Tile extends CFCFTile {
     /**
      * @override
@@ -262,7 +298,10 @@ export class CFCF2Tile extends CFCFTile {
     }
 };
 
-// Like base CFCF but witohut connected city borders
+/**
+ * Represents tile 13 on page 16 of the rulebook
+ * Like base CFCF but witohut connected city borders
+ */
 export class CFCF3Tile extends CFCFTile {
     /**
      * @override
@@ -279,6 +318,9 @@ export class CFCF3Tile extends CFCFTile {
     }
 };
 
+/**
+ * Represents tile 14 on page 16 of the rulebook
+ */
 export class CFFFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.FARM, BorderType.FARM];
@@ -289,6 +331,9 @@ export class CFFFTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 15 on page 16 of the rulebook
+ */
 export class CFRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.FARM, BorderType.ROAD, BorderType.ROAD];
@@ -302,7 +347,10 @@ export class CFRRTile extends Tile {
     }
 };
 
-// This is also the starting tile
+/**
+ * Represents tile 16 on page 16 of the rulebook
+ * This is also the starting tile
+ */
 export class CRFRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.FARM, BorderType.ROAD];
@@ -316,6 +364,9 @@ export class CRFRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 17 on page 16 of the rulebook
+ */
 export class CRRFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.ROAD, BorderType.FARM];
@@ -329,6 +380,9 @@ export class CRRFTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 18 on page 16 of the rulebook
+ */
 export class CRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.CITY, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];
@@ -343,7 +397,10 @@ export class CRRRTile extends Tile {
     }
 };
 
-// Cloister Farm Tile
+/**
+ * Represents tile 19 on page 16 of the rulebook
+ * cloister farm tile
+ */
 export class FFFFTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.FARM, BorderType.FARM, BorderType.FARM];
@@ -361,7 +418,10 @@ export class FFFFTile extends Tile {
     }
 };
 
-// Cloister Farm + Road tile
+/**
+ * Represents tile 20 on page 16 of the rulebook
+ * cloister farm + road tile
+ */
 export class FFFRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.FARM, BorderType.FARM, BorderType.FARM]
@@ -379,6 +439,9 @@ export class FFFRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 21 on page 16 of the rulebook
+ */
 export class FFRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.FARM, BorderType.ROAD, BorderType.ROAD];
@@ -392,6 +455,9 @@ export class FFRRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 22 on page 16 of the rulebook
+ */
 export class FRFRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.ROAD, BorderType.FARM, BorderType.ROAD];
@@ -405,6 +471,9 @@ export class FRFRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 23 on page 16 of the rulebook
+ */
 export class FRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.FARM, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];
@@ -419,6 +488,9 @@ export class FRRRTile extends Tile {
     }
 };
 
+/**
+ * Represents tile 24 on page 16 of the rulebook
+ */
 export class RRRRTile extends Tile {
     getBaseBorders(): QuadBorders {
         return [BorderType.ROAD, BorderType.ROAD, BorderType.ROAD, BorderType.ROAD];

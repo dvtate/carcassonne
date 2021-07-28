@@ -1,12 +1,12 @@
 import Tile, * as tiles from './Tile';
 
 /**
- * Abstract factory for tile objects. Represents the stack of cards component of the game
+ * Abstract factory for tile objects. Represents the stack of tiles component of the game
  */
 export default class TileStack {
 
     /**
-     * Cards available for player to pull from
+     * Tiles available for player to pull from
      */
     tiles: Tile[] = [];
 
@@ -54,7 +54,7 @@ export default class TileStack {
     ];
 
     /**
-     * This card will never get placed into the deck as it goes onto the board instantly
+     * This tile will never get placed into the deck as it goes onto the board instantly
      */
     public static startingTile = tiles.CRFRTile;
 
@@ -62,8 +62,9 @@ export default class TileStack {
      * Populate the board according to the distribution in the rulebook
      */
     private populate() {
+        // Populate this.tiles with tiles
         TileStack.tileDistribution.forEach(([ctor, count]) => {
-            // One less of starting card as it's already on the board
+            // One less of starting tile as it's already on the board
             if (ctor === TileStack.startingTile)
                 count--;
             for (let i = 0; i < count; i++)
@@ -72,7 +73,7 @@ export default class TileStack {
     }
 
     /**
-     * Shuffles the stack of cards
+     * Shuffles the stack of tiles
      */
     private shuffle() {
         // Shuffle via fisher-yates algorithm
@@ -84,7 +85,7 @@ export default class TileStack {
     }
 
     /**
-     * Pick a card from the stack
+     * Pick a tile from the stack
      * @returns tile on top of the stack
      */
     pull() {
