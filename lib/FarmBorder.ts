@@ -4,14 +4,14 @@ import Tile from './Tile'
  * Bisected square edges
  */
 export enum FarmBorderSegment {
-    TOP_TOP_RIGHT = 0,      // 0 - 0.5
-    SIDE_TOP_RIGHT = 0.5,   // 0.5 - 1
-    SIDE_BOT_RIGHT = 1,     // 1 - 1.5
-    BOT_BOT_RIGHT = 1.5,    // ...
-    BOT_BOT_LEFT = 2,
-    SIDE_BOT_LEFT = 2.5,
-    SIDE_TOP_LEFT = 3,
-    TOP_TOP_LEFT = 3.5,     // 3.5 - 4
+    TOP_TOP_RIGHT   = 0,    // 0 - 0.5
+    SIDE_TOP_RIGHT  = 0.5,  // 0.5 - 1
+    SIDE_BOT_RIGHT  = 1,    // 1 - 1.5
+    BOT_BOT_RIGHT   = 1.5,  // ...
+    BOT_BOT_LEFT    = 2,
+    SIDE_BOT_LEFT   = 2.5,
+    SIDE_TOP_LEFT   = 3,
+    TOP_TOP_LEFT    = 3.5,  // 3.5 - 4
 };
 
 /**
@@ -42,9 +42,9 @@ export abstract class FarmBorder {
         const ret = {};
         ret[ret[FarmBorderSegment.TOP_TOP_LEFT]  = FarmBorderSegment.BOT_BOT_LEFT]
             = FarmBorderSegment.TOP_TOP_LEFT;
-        ret[ret[FarmBorderSegment.TOP_TOP_RIGHT] =  FarmBorderSegment.BOT_BOT_RIGHT]
+        ret[ret[FarmBorderSegment.TOP_TOP_RIGHT] = FarmBorderSegment.BOT_BOT_RIGHT]
             = FarmBorderSegment.TOP_TOP_RIGHT;
-        ret[ret[FarmBorderSegment.SIDE_TOP_LEFT] =  FarmBorderSegment.SIDE_TOP_RIGHT]
+        ret[ret[FarmBorderSegment.SIDE_TOP_LEFT] = FarmBorderSegment.SIDE_TOP_RIGHT]
             = FarmBorderSegment.SIDE_TOP_LEFT;
         ret[ret[FarmBorderSegment.SIDE_BOT_LEFT] = FarmBorderSegment.SIDE_BOT_RIGHT]
             = FarmBorderSegment.SIDE_BOT_LEFT;

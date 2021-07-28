@@ -1,5 +1,5 @@
 import Follower from './Follower';
-import {FarmBorder, FarmBorderArea, FarmBorderPassageway, FarmBorderSegment} from './FarmBorder'
+import { FarmBorder, FarmBorderArea, FarmBorderPassageway } from './FarmBorder'
 
 // Represents tile border types
 enum BorderType {
@@ -126,6 +126,7 @@ export default abstract class Tile {
      * @param rotation amount to rotate tile by, defaults to this.rotation
      */
     abstract farmConnections(rotation?: number): FarmBorder[];
+
 
 };
 

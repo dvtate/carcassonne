@@ -38,7 +38,6 @@ export default class Table {
         })(0, 0, [], new SparseMatrix<boolean>());
     }
 
-
     /**
      * Can we place given tile as specified?
      * @param tile tile object
@@ -47,7 +46,7 @@ export default class Table {
      * @param rotation how much to rotate it
      * @returns true if can place false if not
      */
-    canPlaceTile(tile: Tile, x: number, y: number, rotation: number) {
+    private canPlaceTile(tile: Tile, x: number, y: number, rotation: number) {
         // Get neighboring borders
         const neighbors = [
             this.grid.get(x, y + 1),
@@ -79,10 +78,23 @@ export default class Table {
     }
 
     /**
-     * Get a valid follower types for this location
-     * @param x x position
-     * @param y y position
-     * @param tile
+     * Put tile into play
+     * @param tile Tile to place
+     * @param x x coord
+     * @param y y coord
+     * @param rotation rotations to perform on tile
+     */
+    placeTile(tile: Tile, x: number, y: number, rotation = tile.rotation) {
+        tile.rotation = rotation;
+        this.grid.set(x, y, tile);
+    }
+    /**
+     * Get valid followers for a hypothetical tile placement
+     * @param x x coord
+     * @param y y coord
+     * @param tile relevant tile
+     * @param rotation rotation for tile
+     * @returns set of valid followers for tile
      */
     validFollowers(x: number, y: number, tile: Tile = this.grid.get(x, y), rotation?: number) {
         // Unique tile elements

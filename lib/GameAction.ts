@@ -1,11 +1,12 @@
 import Follower from "./Follower";
 import Player from "./Player";
 import Tile from "./Tile";
+import Game from "./Game";
 
-
-abstract class GameAction {
-    player: Player;
-    tile: Tile;
+export default abstract class GameAction {
+    constructor(
+        readonly game: Game,
+    ) { }
 };
 
 class PlaceTile extends GameAction {
@@ -13,20 +14,21 @@ class PlaceTile extends GameAction {
     x: number;
     y: number;
     follower?: Follower;
+    followerMoves!: Follower[];
 
-    constructor(player: Player, tile: Tile, rotation: number, x: number, y: number) {
-        super();
-        this.player = player;
-        this.tile = tile;
+    constructor(game: Game,
+        x: number, y: number, rotation: number) {
+        super(game);
         this.rotation = rotation;
         this.x = x;
         this.y = y;
     }
 
-    validFollowerTypes() {
-    }
-
-    addFollower() {
+    validFollowers() {
 
     }
 };
+
+class PlaceFollower extends GameAction {
+
+}
