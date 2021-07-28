@@ -103,6 +103,6 @@ export default class TileStack {
      * checks if there are still tiles in the stack
      */
     empty() {
-        return this.tiles.length !== 0;
+        return this.tiles.length === 0;
     }
 };

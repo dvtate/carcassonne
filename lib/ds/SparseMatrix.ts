@@ -5,7 +5,7 @@ export default class SparseMatrix<T> {
     /**
      * Dictionary of coordinates to values
      */
-    private grid: { [x: number] : { [y: number] : T }};
+    private grid: { [x: number] : { [y: number] : T }} = {};
 
     /**
      * Get value from grid

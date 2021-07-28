@@ -17,26 +17,26 @@ export default class Table {
     private getEmptySpots(): [number, number][] {
         // TOOD this could be replaced with an iterative system to reduce CPU load if larger grid
         // Flood-fill algorithm
-        return (function rec(x, y, ret: [number, number][], seen) {
+        return (function rec(self, x, y, ret: [number, number][], seen) {
             // Base case
             if (seen.get(x, y))
                 return ret;
             seen.set(x, y, true);
 
             // If tile is empty
-            const tile = this.grid.get(x, y);
+            const tile = self.grid.get(x, y);
             if (!tile) {
                 ret.push([x, y]);
                 return ret;
             }
 
             // Branch out
-            rec(x, y + 1, ret, seen);
-            rec(x + 1, y, ret, seen);
-            rec(x, y - 1, ret, seen);
-            rec(x - 1, y, ret, seen);
+            rec(self, x, y + 1, ret, seen);
+            rec(self, x + 1, y, ret, seen);
+            rec(self, x, y - 1, ret, seen);
+            rec(self, x - 1, y, ret, seen);
             return ret;
-        })(0, 0, [], new SparseMatrix<boolean>());
+        })(this, 0, 0, [], new SparseMatrix<boolean>());
     }
 
     /**

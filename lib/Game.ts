@@ -46,6 +46,8 @@ export default class Game {
      * @param players array of players in clockwise order (order of play)
      */
     constructor(players: Player[]) {
+        if (players.length === 0)
+            throw new Error('cannot play game with zero players');
         this.players = players;
 
         // Initialize scoreboard
@@ -53,6 +55,9 @@ export default class Game {
 
         // Place starting tile onto the board
         this.table.placeTile(new TileStack.startingTile(), 0, 0);
+
+        // Prepare for first turn
+        this.initTurn();
     }
 
     /**

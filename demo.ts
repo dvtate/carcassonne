@@ -1,9 +1,14 @@
 import Game from './lib/Game';
+import Player from './lib/Player';
 
-
+/*
+ * This file is just to give an idea of how one might implement a game using this library
+ */
 
 // TODO implement
-const ui: any = {};
+const ui: any = {
+    getPlayers: () => [ new Player(), new Player()],
+};
 
 // Create game
 const game = new Game(ui.getPlayers());
