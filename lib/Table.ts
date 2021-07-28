@@ -12,11 +12,10 @@ export default class Table {
 
     /**
      * Find spots where a tile could be placed
-     * @returns array of x,y coordinates
+     * @returns array of [x,y] coordinates pairs
      */
     private getEmptySpots(): [number, number][] {
-        // TOOD this should be replaced with an iterative system
-
+        // TOOD this could be replaced with an iterative system to reduce CPU load if larger grid
         // Flood-fill algorithm
         return (function rec(x, y, ret: [number, number][], seen) {
             // Base case
@@ -69,8 +68,10 @@ export default class Table {
     /**
      * Returns a set of ways the tile can be paced
      * @param tile tile that has to be placed
+     * @returns array of [x, y, rotation] combinations
      */
     legalPlacements(tile: Tile) {
+        // Brute force all the possible locations with all possible rotations
         const ret: [number, number, number][] = [];
         for (const [x, y] of this.getEmptySpots())
             for (let rotation = 0; rotation < 4; rotation++)
@@ -96,9 +97,8 @@ export default class Table {
      * @param x x coord
      * @param y y coord
      * @param follower follower to add
-     * @param rotation rotation of tile
      */
-    placeFollower(x: number, y: number, follower: Follower, rotation = follower.position) {
+    placeFollower(x: number, y: number, follower: Follower) {
         // Get tile
         const tile = this.grid.get(x, y);
         if (!tile)
@@ -141,16 +141,15 @@ export default class Table {
                 else
                     ret.push(...directions.map(d => new Follower(Follower.Type.THIEF, tile, d)));
             }
-
         }
 
         // Check conditions for knight
         if (tileBorders.includes(Tile.Border.CITY)) {
             const cityBorders = tileBorders.map(b => b === Tile.Border.CITY);
-            if (tile.cityConnected()) {
+            if (tile.cityConnected())
                 if (!this.cityOccupied(x, y, cityBorders))
                     ret.push(new Follower(Follower.Type.KNIGHT, tile, cityBorders.indexOf(true)));
-            } else {
+            else
                 cityBorders.forEach((b, i) => {
                     if (b) {
                         const directions = [false, false, false, false];
@@ -158,8 +157,7 @@ export default class Table {
                         if (this.roadOccupied(x, y, directions))
                             ret.push(new Follower(Follower.Type.KNIGHT, tile, i));
                     }
-                })
-            }
+                });
         }
 
         // Check conditions for farmer
@@ -185,7 +183,7 @@ export default class Table {
      * @returns if the connecting road-network already has a thief
      */
     roadOccupied(x: number, y: number, directions: boolean[], set: Set<Tile> = new Set()): boolean {
-        // TODO this might be incorrect behavior with respect to intersections
+        // TODO verify that behavior around intersections fits with what's in the rules
 
         // Get the borders of the tile which have roads, excluding previous tile
         const getRoadBorders = (t: Tile, i: number) => {
@@ -232,7 +230,7 @@ export default class Table {
      * @param set set to prevent looping
      */
     cityOccupied(x: number, y: number, directions: boolean[], set = new Set()): boolean {
-        // Get the borders of the tile which have roads, excluding previous tile
+        // Get the borders of the tile which have cities, excluding previous tile
         const getCityBorders = (t: Tile, i: number) => {
             const badIdx = (i + 2) % 4;
             return t.getBorders().map((b, i) => b === Tile.Border.CITY && i != badIdx);
@@ -240,7 +238,7 @@ export default class Table {
 
         // Check neighbors
         for (let i = 0; i < 4; i++) {
-            // Skip if not a road border
+            // Skip if not a city border
             if (!directions[i])
                 continue;
 

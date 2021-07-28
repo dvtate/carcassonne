@@ -26,6 +26,9 @@ export enum FollowerType {
     KNIGHT,
 };
 
+/**
+ * Followers are used to occupy areas of the map in the game
+ */
 export default class Follower {
     // Nested follower type
     static Type = FollowerType;

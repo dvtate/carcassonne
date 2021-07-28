@@ -58,8 +58,7 @@ export default class ScoreBoard {
     }
 
     /**
-     *
-     * @returns Summarise scoreboard
+     * Summarise scoreboard
      */
     summary() {
         const points = this.points();

@@ -4,6 +4,7 @@ import Tile from './Tile'
  * Bisected square edges
  */
 export enum FarmBorderSegment {
+    // Numbers represent portions of 90 degrees, compatible with tile rotation system
     TOP_TOP_RIGHT   = 0,    // 0 - 0.5
     SIDE_TOP_RIGHT  = 0.5,  // 0.5 - 1
     SIDE_BOT_RIGHT  = 1,    // 1 - 1.5
@@ -16,6 +17,7 @@ export enum FarmBorderSegment {
 
 /**
  * Represents Inter-tile borders for farm regions
+ * @abstract
  */
 export abstract class FarmBorder {
     /**
@@ -53,8 +55,7 @@ export abstract class FarmBorder {
 
     /**
      * What segment on other tiles would line up with this segment
-     * @param origin
-     * @returns
+     * @param origin segment to match against
      */
     static matchingSegment(origin: FarmBorderSegment) {
         return FarmBorder.matchingSegmentDict[origin];
@@ -68,7 +69,7 @@ export abstract class FarmBorder {
     /**
      * Segments which correspond to given direction, and matches
      */
-    static directionalSides = (() => {
+    private static directionalSides = (() => {
         // Start with segments for top right half of tile
         const ret = [
             [[FarmBorderSegment.TOP_TOP_LEFT, FarmBorderSegment.TOP_TOP_RIGHT]],
@@ -134,13 +135,14 @@ export class FarmBorderArea extends FarmBorder {
 
     /**
      * @param tile relevant tile
-     * @param param0 rotational start and end of the region
+     * @param range rotational start and end of the region
      * @param rotation rotation to perform
      */
-    constructor(tile: Tile, [start, end] : number[], rotation: number = 0) {
+    constructor(tile: Tile, range: [number, number], rotation: number = 0) {
         super(tile);
 
         // Perform rotation
+        let [start, end] = range;
         start += rotation;
         end += rotation;
 
@@ -197,13 +199,13 @@ export class FarmBorderPassageway extends FarmBorder {
 
     /**
      * @param tile relevant tile
-     * @param param0 rotational start and ends for the two portals
+     * @param ranges rotational starts and ends for the two portals
      * @param rotation rotation to perform
      */
-    constructor(tile: Tile, [a, b]: number[][], rotation: number = 0) {
+    constructor(tile: Tile, ranges: [[number, number], [number, number]], rotation: number = 0) {
         super(tile);
-        this.a = new FarmBorderArea(tile, a, rotation);
-        this.b = new FarmBorderArea(tile, b, rotation);
+        this.a = new FarmBorderArea(tile, ranges[0], rotation);
+        this.b = new FarmBorderArea(tile, ranges[1], rotation);
     }
 
     getSegments() {

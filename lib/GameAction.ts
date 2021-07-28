@@ -2,16 +2,29 @@ import Follower from "./Follower";
 import Player from "./Player";
 import Tile from "./Tile";
 import Game from "./Game";
+import Table from "./Table";
+
+
+// TODO this class should inherit from an abstract base or implement an interface
+//      as it's likely we will also need a GameOverTurn class
 
 /**
- * Player's turn
+ * All the information relevant for the player to make their turn
  */
 export class GameTurn {
+    // TODO should also include current score
+
     /**
-     * @constructor
-     * @param player relevant player
-     * @param actions their available actions
-     * @param discardedTiles
+     * What to do when this turn is executed
+     */
+    protected action: PlaceTileAction = null;
+
+    /**
+     * @param game Game that this turn is associated with
+     * @param player Player whos turn it is
+     * @param placementOptions Valid moves for this turn
+     * @param discardedTiles Tiles that could not be placed and had to be discarded for this turn
+     * @param tile relevant tile that must be placed this turn
      */
     constructor(
         public readonly game: Game,
@@ -21,6 +34,25 @@ export class GameTurn {
         public readonly tile: Tile,
     ) {
 
+    }
+
+    /**
+     * Perform action
+     * @param placement tile placement action from this.placementOptions
+     */
+    act(placement: PlaceTileAction) {
+        if (!this.placementOptions.includes(placement))
+            throw new Error('placement must be one of the options in this.placementOptions');
+        this.action = placement;
+        this.game.handleTurn();
+    }
+
+    /**
+     * Get the action to be executed this turn
+     * @returns action field or null
+     */
+    getAction() {
+        return this.action;
     }
 
     /**
@@ -39,8 +71,10 @@ export class GameTurn {
  * User decides to place a tile
  */
 export class PlaceTileAction {
-    follower!: Follower;
-    validFollowers!: Follower[];
+    /**
+     * Cache for valid follower options
+     */
+    private validFollowers!: Follower[];
 
     /**
      * @param game parent game object
@@ -48,13 +82,15 @@ export class PlaceTileAction {
      * @param x x coordinate for tile placement
      * @param y y coordinate for tile placement
      * @param rotation tile rotation
+     * @param table table on which tiles are placed
      */
     constructor(
         public readonly game: Game,
         public readonly tile: Tile,
         public readonly x: number,
         public readonly y: number,
-        public readonly rotation: number
+        public readonly rotation: number,
+        private table: Table,
     ) {
 
     }
@@ -63,10 +99,12 @@ export class PlaceTileAction {
      * Get a set of valid follower placements to combine with this tile placement
      */
     getFollowerOptions() {
+        // Use cache if possible
         if (this.validFollowers)
             return this.validFollowers;
 
-        return this.validFollowers = this.game.table
+        // Find valid followers for tile and save in cache
+        return this.validFollowers = this.table
             .validFollowers(this.x, this.y, this.game.turn.tile, this.rotation)
     }
 
@@ -76,9 +114,14 @@ export class PlaceTileAction {
      */
     setFollower(follower: Follower) {
         // Verify it's one of the ones we generated
-        if (!this.validFollowers.includes(follower))
-            throw new Error('Please use a follower provided by getFollowerOptions');
+        if (!this.getFollowerOptions().includes(follower))
+            throw new Error('Please use a follower provided by this.getFollowerOptions()');
 
-        this.follower = follower;
+        // Can only add one follower to tile
+        if (this.tile.getFollowers().length !== 0)
+            throw new Error('Can only add one follower!');
+
+        // Add follower to tile
+        this.tile.addFollower(follower);
     }
 };

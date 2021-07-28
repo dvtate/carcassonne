@@ -13,6 +13,9 @@ enum PlayerColor {
     // TODO more colors
 };
 
+/**
+ * Describes an active participant in the game
+ */
 export default class Player {
     /**
      * Nested player follower color enum

@@ -22,6 +22,10 @@ enum BorderType {
 // Borders for a 4-sided tile
 type QuadBorders = [BorderType, BorderType, BorderType, BorderType];
 
+/**
+ * Represents a land tile in the game
+ * @abstract Each type of tile extends this abstract base
+ */
 export default abstract class Tile {
     /**
      * Nested BorderType enum
@@ -120,14 +124,11 @@ export default abstract class Tile {
         return ret;
     }
 
-
     /**
      * Discover farm border connections for this tile
      * @param rotation amount to rotate tile by, defaults to this.rotation
      */
     abstract farmConnections(rotation?: number): FarmBorder[];
-
-
 };
 
 /*
