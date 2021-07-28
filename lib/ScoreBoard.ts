@@ -17,8 +17,9 @@ abstract class ScoreEvent {
     abstract describe(): string
 };
 
-
-
+/**
+ * A class used to keep track of the score in a game
+ */
 export default class ScoreBoard {
     /**
      * List of players passed to constructor

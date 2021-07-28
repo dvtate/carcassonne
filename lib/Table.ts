@@ -1,12 +1,14 @@
 import Tile from "./Tile";
 import SparseMatrix from './ds/SparseMatrix';
-import Follower, { FollowerType } from "./Follower";
+import Follower from "./Follower";
 import { FarmBorder } from "./FarmBorder";
 
 // Where the tiles get placed
 export default class Table {
-    // Location Map
-    grid: SparseMatrix<Tile>;
+    /**
+     * Location map
+     */
+    grid: SparseMatrix<Tile> = new SparseMatrix();
 
     /**
      * Find spots where a tile could be placed
@@ -88,6 +90,25 @@ export default class Table {
         tile.rotation = rotation;
         this.grid.set(x, y, tile);
     }
+
+    /**
+     * Put a follower onto the tile
+     * @param x x coord
+     * @param y y coord
+     * @param follower follower to add
+     * @param rotation rotation of tile
+     */
+    placeFollower(x: number, y: number, follower: Follower, rotation = follower.position) {
+        // Get tile
+        const tile = this.grid.get(x, y);
+        if (!tile)
+            throw new Error("cannot place follower onto non-existant tile");
+
+        // Add follower to tile
+        follower.tile = tile;
+        tile.addFollower(follower);
+    }
+
     /**
      * Get valid followers for a hypothetical tile placement
      * @param x x coord
