@@ -1,5 +1,5 @@
 # Library structure
-Classes were made to mimic the real-world components of the game as closesly as possible, with abstract classes representing concepts with various components.
+Classes were made to mimic the real-world components of the game as closely as possible, with abstract classes representing concepts with various components.
 
 ## Game pieces
 ### Tiles
@@ -43,9 +43,9 @@ Instead of creating vector/coordinate types, tuples or even unpacked values were
 Enums were used instead of classes or strings
 
 ### Static Data
-Where possible, data was tied to the the classes instead of being stored in instances. For example, the child classes of `Tile` implement abstract methods which are used to provide relevant information instead of having a single Tile class which stored that relevant information as instance variables. Thus converting a linear memory cost into a constant memory cost.
+Where possible, data was tied to the classes instead of being stored in instances. For example, the child classes of `Tile` implement abstract methods which are used to provide relevant information instead of having a single Tile class which stored that relevant information as instance variables. Thus converting a linear memory cost into a constant memory cost.
 
-## 2-3. High-level hides internal funcionality
+## 2-3. High-level hides internal functionality
 
 ### Private members
 Wherever it made sense, members were either made private/protected or converted to local variables in their relevant methods. There are definitely still more that could be made private but it would be best to finish scoring before they're changed.
@@ -56,7 +56,7 @@ As one who uses C++ I generally prefer abstract classes to interfaces and thus u
 ## 4. Advanced Concepts
 ### Type Features
 All mentioned type features were used including
-- contructor types
+- constructor types
 - polymorphism
 - generic types
 - tuple types
@@ -65,27 +65,27 @@ All mentioned type features were used including
 
 ### Idiomatic language features
 All mentioned features were used including
-- funcitonal array methods (`map`, `filter`, `reduce`, etc.)
+- functional array methods (`map`, `filter`, `reduce`, etc.)
 - Range-based for loops (ie `for (* in *) ...` in `ds/SparseMatrix.ts`
 - Iterators, a custom iterator was implemented for `SparseMatrix, but not used (would be useful for scoring tho)
 - Object destructuring was used although avoided for function parameters as it's messy to add to TSDoc
 
 ### Object oriented Patterns
-Project is OO although does not excessively organize things into classes which perform very few operations. I beleive I labelled the `TileStack` as an abstract factory but it's more like an abstract repository. No singletons were used. Every object is locally scoped. The `Game` class is a facade consisting of several private components.
+Project is OO although it does not excessively organize things into classes which perform very few operations. I believe I labeled the `TileStack` as an abstract factory but it's more like an abstract repository. No singletons were used. Every object is locally scoped. The `Game` class is a facade consisting of several private components.
 
 ## 5. Generic Data Structures
-The only reuseable, custom structure used was the `SparseMatrix` class which as specified maintains a de-centralized grid of values of a given type parameter. Thankfully JavaScript provides the most useful structures out of the box and changes some algorithms depending on use cases.
+The only reusable, custom structure used was the `SparseMatrix` class which as specified maintains a decentralized grid of values of a given type parameter. Thankfully JavaScript provides the most useful structures out of the box and changes some algorithms depending on use cases.
 
 ## Additional Performance Considerations
 Throughout the project, consideration was taken to the performance and time complexity of the different components of the project and some algorithms were noted as potential targets for optimizations along with a rough path to do so. Additionally the GameAction api was designed such that the additional cost of discovering valid followers for a tile placement option was only performed if requested and the response of this operation was cached so that it's not repeated
 
 # TODO
-I would recommend looking through all commments marked as `// TODO` as any attention points would be there.
+I would recommend looking through all comments marked as `// TODO` as any attention points would be there.
 ## Scoring
 Likely can implement similar to how it's done in the `Table` class to verify followers. Will have to traverse the regions and get a set of tiles... Also roads have additional logic involved with intersections and city connections which shouldn't require a `FarmBorders` like solution but will add some pain.
 
 ## Verify algorithms
-Demo.ts appears to verify behavior for a single turn but definitely could do more thurough testing. Additionally unit-tests would be smart likely not worth the time.
+Demo.ts appears to verify behavior for a single turn but definitely could do more thorough testing. Additionally unit-tests would be good to have but likely not worth the time.
 
 ## Frontend
 Unspecified.
