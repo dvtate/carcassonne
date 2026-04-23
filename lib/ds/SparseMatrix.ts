@@ -49,4 +49,47 @@ export default class SparseMatrix<T> {
             for (const y in this.grid[x])
                 yield [Number(x), Number(y), this.grid[x][y]];
     }
+
+    /**
+     * Find coordinates of first instance of value in the matrixc
+     * @param value value to find
+     * @param eq equality check function 
+     * @returns coordinates of first matching instance or null
+     * @remarks O(N*M) -- could iterate over all entries
+     */
+    find(value: T, eq = (a: T, b: T): boolean => a === b) {
+        for (const x in this.grid)
+            for (const y in this.grid[x])
+                if (eq(this.grid[x][y], value))
+                    return [Number(x), Number(y)];
+        return null;
+    }
+
+    boundingBox() {
+        let minX: number, maxX: number;
+        let minY: number, maxY: number;
+        this.entries().forEach(([x, y, _]) => {
+            if (minX === undefined) {
+                minX = x;
+                maxX = x;
+                minY = y;
+                maxY = y;
+                return;
+            }
+
+            if (x < minX)
+                minX = x;
+            else if (x > maxX)
+                maxX = x;
+
+            if (y < minY)
+                minY = y;
+            else if (y > maxY)
+                maxY = y;
+        });
+
+        if (minX == undefined)
+            return null;
+        return [[minX, minY], [maxX, maxY]] ;
+    }
 };

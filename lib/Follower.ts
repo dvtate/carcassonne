@@ -56,7 +56,9 @@ export default class Follower {
      * 0.5  : top-right
      * 1    : right
      * 1.5  : bottom-right
-     * 3    : bottom-left
+     * 2    : bottom
+     * 2.5  : bottom-left
+     * 3    : left
      * 3.5  : top-left
      */
     position: number;
@@ -74,4 +76,18 @@ export default class Follower {
         this.position = position;
         this.player = player;
     }
+
+    positionString() {
+        return [
+            'top',
+            'top-right',
+            'right',
+            'bottom-right',
+            'bottom',
+            'bottom-left',
+            'left',
+            'top-left',
+        ][Math.floor(this.position * 2)];
+    }
+
 };

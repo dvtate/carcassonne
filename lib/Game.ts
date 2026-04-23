@@ -14,7 +14,7 @@ export default class Game {
     /**
      * The map of tiles in play
      */
-    private table: Table = new Table();
+    public table: Table = new Table();
 
     /**
      * The game tiles to pull from
@@ -72,9 +72,13 @@ export default class Game {
      */
     private initTurn() {
         // Set up variables
-        let actions: PlaceTileAction[];
+        let actions: PlaceTileAction[] = [];
         const discarded = [];
         let tile: Tile;
+
+        const player = this.players[this.playerIndex++];
+        if (this.playerIndex >= this.players.length)
+            this.playerIndex = 0;
 
         // Pull tile until we get valid one (usually first tile)
         while (!this.tileStack.empty()) {
